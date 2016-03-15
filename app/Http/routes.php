@@ -12,7 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('start');
+});
+Route::get('/score', function () {
+    return view('score');
 });
 
 /*

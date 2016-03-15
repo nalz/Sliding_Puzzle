@@ -16,56 +16,6 @@
 
 	Puzzle.fn = Puzzle.prototype = {
 
-		_reset: function() {
-
-			
-
-			this.targetNode = new Node(15, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0]);
-
-			this.currentNode = $.extend(true, {}, this.targetNode);
-			this.difficulty = 0;
-
-			var grid_items = $(".grid_item");
-
-			for(var i =0; i<grid_items.length; i++) {
-				var selector = $(grid_items[i]),
-				posClass = this._getPosClass(selector);
-
-				$(selector).removeClass("blank candidate " + posClass);
-				
-				$(selector).addClass("pos_" + i);
-			}
-			
-			$("#grid_0").addClass("blank");
-
-			this._addCandidates();
-		},
-
-		_change: function(callback) {
-			$(".loading").show();
-			var template = this.templateClasses[Math.floor(Math.random() * this.templateClasses.length)],
-
-			that = this,
-
-			items = $(".grid_item");
-
-			applyClass = function(index) {
-				setTimeout(function() {
-					var element = items[index];
-					if(typeof element !== "undefined") {
-						$(element).addClass(template);
-						applyClass(index + 1);
-					}
-					else {
-						callback();
-					}
-				}, 100);
-			};
-
-			applyClass(0);
-			
-		},
-
 		addEvents: function() {
 
 			var that = this,
@@ -86,38 +36,11 @@
 				that._updateMoves();
 				
 				that._moveGridItem($(this));
-			});
-		},
 
-		_shuffle: function(callback) {
-			var that = this,
-
-			startShuffle = function(index, lastRandom) {
-				if(index < that.difficulty * 10){
-					setTimeout(function() {
-						var candidates = $(".candidate");
-
-						if(lastRandom !== null) {
-							var randomId = $(lastRandom).attr("id");
-							for(var i=0; i<candidates.length; i++) {
-								if($(candidates[i]).attr("id") === randomId) {
-									candidates.splice(i, 1);
-									break;
-								}
-							}
-						}
-						var randomCandidate = candidates[Math.floor(Math.random() * candidates.length)];
-						that._moveGridItem(randomCandidate);
-						startShuffle(index + 1, randomCandidate);
-					}, 100);
+				if(that._finished()) {
+					that._scoreboard(true);
 				}
-				else {
-					$(".loading").hide();
-					callback();
-				}	
-			};
-			startShuffle(0, null);	
-			
+			});
 		},
 
 		continue: function() {
@@ -157,8 +80,11 @@
 				result = astar.solve();
 
 			this._moveGridItem($(".pos_" + result[0].blankIndex));
-			this.moves += 2;
+			this.moves += 3;
 			this._updateMoves();
+			if(this._finished()) {
+				this._scoreboard(true);
+			}
 		},
 
 		giveup: function() {
@@ -182,6 +108,10 @@
 						moveItem(index + 1);
 
 					}, 250);
+				}
+				else {
+					that.moves = 0;
+					that._scoreboard(false);
 				}
 			};
 
@@ -220,19 +150,6 @@
 				}
 
 			return candidates;
-		},
-
-		_deriveNewNode: function(node, index) {
-
-			var newNode = $.extend(true, {}, node);
-
-			newNode.order[node.blankIndex] = node.order[index];
-			newNode.blankIndex = index;
-			newNode.order[index] = 0;
-			newNode.gCost = node.gCost;
-			newNode.hCost = node.hCost;
-
-			return newNode;
 		},
 
 		convert2dToIndex: function(index2d) {
@@ -289,6 +206,134 @@
 
 		_updateMoves: function() {
 			$("#moves_value").html(this.moves);
+		},
+
+		_change: function(callback) {
+			$(".loading").show();
+			var template = this.templateClasses[Math.floor(Math.random() * this.templateClasses.length)],
+
+			that = this,
+
+			items = $(".grid_item");
+
+			applyClass = function(index) {
+				setTimeout(function() {
+					var element = items[index];
+					if(typeof element !== "undefined") {
+						$(element).addClass(template);
+						applyClass(index + 1);
+					}
+					else {
+						callback();
+					}
+				}, 100);
+			};
+
+			applyClass(0);
+			
+		},
+
+		_reset: function() {
+
+			
+
+			this.targetNode = new Node(15, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0]);
+
+			this.currentNode = $.extend(true, {}, this.targetNode);
+			this.difficulty = 0;
+
+			var grid_items = $(".grid_item");
+
+			for(var i =0; i<grid_items.length; i++) {
+				var selector = $(grid_items[i]),
+				posClass = this._getPosClass(selector);
+
+				$(selector).removeClass("blank candidate " + posClass);
+				
+				$(selector).addClass("pos_" + i);
+			}
+			
+			$("#grid_0").addClass("blank");
+
+			this._addCandidates();
+		},
+
+		_deriveNewNode: function(node, index) {
+
+			var newNode = $.extend(true, {}, node);
+
+			newNode.order[node.blankIndex] = node.order[index];
+			newNode.blankIndex = index;
+			newNode.order[index] = 0;
+			newNode.gCost = node.gCost;
+			newNode.hCost = node.hCost;
+
+			return newNode;
+		},
+
+		_shuffle: function(callback) {
+			var that = this,
+
+			startShuffle = function(index, lastRandom) {
+				if(index < that.difficulty * 10){
+					setTimeout(function() {
+						var candidates = $(".candidate");
+
+						if(lastRandom !== null) {
+							var randomId = $(lastRandom).attr("id");
+							for(var i=0; i<candidates.length; i++) {
+								if($(candidates[i]).attr("id") === randomId) {
+									candidates.splice(i, 1);
+									break;
+								}
+							}
+						}
+						var randomCandidate = candidates[Math.floor(Math.random() * candidates.length)];
+						that._moveGridItem(randomCandidate);
+						startShuffle(index + 1, randomCandidate);
+					}, 100);
+				}
+				else {
+					$(".loading").hide();
+					callback();
+				}	
+			};
+			startShuffle(0, null);	
+			
+		},
+
+		_scoreboard: function(win) {
+			var that = this,
+				bannerText = "You ";
+
+			if(win) {
+				bannerText += "Win!";
+			}
+			else{
+				bannerText += "Lose!";
+			}
+			$(".banner p").html(bannerText);
+			$(".banner").fadeIn(300);
+			
+			$.ajax({
+			        type: "POST",
+			        url: '/userscore',
+			        data: {
+			        	name: that.name,
+			        	difficulty: that.difficulty,
+			        	moves: that.moves
+			        },
+			        success: function() {
+			            window.href("/score");
+			        }
+			});
+		},
+
+		_finished: function() {
+			if(puzzle.currentNode.getKey() == puzzle.targetNode.getKey()) {
+				return true;
+			}
+			return false;
 		}
 
 	};

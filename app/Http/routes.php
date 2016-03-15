@@ -32,3 +32,5 @@ Route::get('/score', function () {
 Route::group(['middleware' => ['web']], function () {
     //
 });
+
+Route::resource('userscore', 'UserScoreController');

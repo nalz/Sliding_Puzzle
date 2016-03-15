@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('content')
-
 <div id="puzzle_container">
 	<div class="loading">
 	  <div class="loading_inner">
@@ -12,6 +10,14 @@
 	    <label>&#8226;</label>
 	    <label>&#8226;</label>
 	  </div>
+	</div>
+	<div class="popup_container">
+		<p>Player Name</p>
+		<input class="input_text" id="name" type="text" name="Name" alt="Name" placeholder="Nalin" tabindex="1">
+		<p>Enter a difficulty level</p>
+		<input class="input_text" id="difficulty" type="text" name="Difficulty" alt="Difficulty" placeholder="1-3" tabindex="1">
+		<div class="btn_primary" id="start">Start Puzzle</div>
+		<p class="error">Some of the fields above were not entered correctly</p>
 	</div>
 	<div id="grid">
 		<div id="row_0">
@@ -40,12 +46,8 @@
 		</div>
 	</div>
 	<div id="actions">
-		<div class="btn_primary" id="reset">Reset</div>
-		<div class="btn_primary" id="shuffle">Shuffle</div>
 		<div class="btn_primary" id="hint">Hint</div>
 		<div class="btn_primary" id="giveup">Give up</div>
-		<div class="btn_primary" id="change">Change</div>
 	</div>
 </div>
-
 @endsection

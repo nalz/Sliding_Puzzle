@@ -6,14 +6,7 @@
         <link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.3/normalize.css" type="text/css">
         <link rel="stylesheet" href="{{ asset('css/main.css') }}" type="text/css">
     </head>
-
     <body>
-        <div class="container">
-            <nav class="navbar navbar-default">
-                <!-- Navbar Contents -->
-            </nav>
-        </div>
-
         @yield('content')
         <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script type="text/javascript" src="{{ asset('js/heap.js') }}"></script>

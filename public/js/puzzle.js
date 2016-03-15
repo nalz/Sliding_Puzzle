@@ -4,16 +4,18 @@
 
 		this.templateClasses = ["text", "image_1", "image_2", "image_3", "image_4"],
 		this.difficulty = 0,
-		this.currentTemplate = 0,
 
 		this.targetNode = {},
 
-		this.currentNode = {};
+		this.currentNode = {},
+
+		this.difficulty = 0,
+		this.name = "";
 	};
 
 	Puzzle.fn = Puzzle.prototype = {
 
-		reset: function() {
+		_reset: function() {
 
 			this.targetNode = new Node(15, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0]);
 
@@ -36,14 +38,11 @@
 			this._addCandidates();
 		},
 
-		change: function() {
-			$(".loading").show();
-			this.reset();
+		_change: function(callback) {
 
-			var previousTemplate = this.currentTemplate;
-			this.currentTemplate = (++this.currentTemplate)%5;
+			var template = this.templateClasses[Math.floor(Math.random() * this.templateClasses.length)],
 
-			var that = this,
+			that = this,
 
 			items = $(".grid_item");
 
@@ -51,12 +50,11 @@
 				setTimeout(function() {
 					var element = items[index];
 					if(typeof element !== "undefined") {
-						$(element).removeClass(that.templateClasses[previousTemplate]);
-						$(element).addClass(that.templateClasses[that.currentTemplate]);
+						$(element).addClass(template);
 						applyClass(index + 1);
 					}
 					else {
-						$(".loading").hide();
+						callback();
 					}
 				}, 100);
 			};
@@ -69,7 +67,7 @@
 
 			var that = this,
 
-			actions = $("#actions").children();
+			actions = $(".btn_primary");
 
 			for(var i=0; i<actions.length; i++) {
 				$(actions[i]).click(function() {
@@ -86,11 +84,12 @@
 			});
 		},
 
-		shuffle: function() {
+		_shuffle: function(callback) {
+			$(".loading").show();
 			var that = this,
 
 			startShuffle = function(index, lastRandom) {
-				if(index < 10){
+				if(index < that.difficulty * 10){
 					setTimeout(function() {
 						var candidates = $(".candidate");
 
@@ -107,10 +106,41 @@
 						that._moveGridItem(randomCandidate);
 						startShuffle(index + 1, randomCandidate);
 					}, 100);
+				}
+				else {
+					$(".loading").hide();
+					callback();
 				}	
 			};
-			that.difficulty += 1;
-			startShuffle(0, null);
+			that._change(function() {
+				setTimeout(function() {
+					startShuffle(0, null);
+				}, 2000);
+				
+			});
+			
+		},
+
+		start: function() {
+
+			var difficulty = $("#difficulty").val(),
+				name = $("#name").val(),
+				that = this;
+
+			if(isNaN(parseInt(difficulty)) || difficulty>3 || difficulty<1 || !(/^[a-zA-Z()]+$/.test(name))) {
+				$(".error").show();
+				return false;
+			}
+
+			this.difficulty = difficulty;
+			this.name = name;
+
+			$(".popup_container").fadeOut(100);
+			$("#grid").fadeIn(500, function() {
+				that._shuffle(function() {
+					$("#actions").show();
+				});
+			});
 		},
 
 		hint: function() {
@@ -245,12 +275,13 @@
 			    }
 			}
 		}
+
 	};
 
 	var puzzle = new Puzzle();
-	puzzle.reset();
-	puzzle.addEvents();
+		puzzle.addEvents();
+		puzzle._reset();
 
-	window.puzzle = puzzle;
+		window.puzzle = puzzle;
 
 })();

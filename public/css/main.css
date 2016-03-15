@@ -1,3 +1,6 @@
+html {
+	height: 100%;
+}
 body {
 	position: relative;
 	font-family: 'Open Sans', sans-serif;
@@ -7,7 +10,7 @@ body {
 	white-space: nowrap;
 }
 body:before {
-  content: '';
+  content: ' ';
   display: inline-block;
   height: 100%;
   vertical-align: middle;
@@ -24,6 +27,7 @@ body:before {
 	background: black;
 	margin: auto;
 	position: relative;
+	display: none;
 }
 .grid_item {
 	max-width: 88px;
@@ -80,6 +84,11 @@ div[class*='image_'] span{
     -webkit-transition-duration: .25s;
     transition-property: background;
     transition-duration: .25s;
+}
+#start {
+	display: block;
+	margin: auto;
+    margin-top: 30px;
 }
 
 .btn_primary:hover {
@@ -199,23 +208,27 @@ div[class*='image_'] span{
 #grid_0 {
 	background: none;
 }
-
+.error {
+	display: none;
+	font-size: 10px;
+	color: red;
+}
 .image_1{
-	background-image: url("../img/image1.jpg");
+	background-image: url("assets/image1.jpg");
 }
 .image_2{
-	background-image: url("../img/image2.jpg");
+	background-image: url("assets/image2.jpg");
 }
 .image_3{
-	background-image: url("../img/image3.jpg");
+	background-image: url("assets/image3.jpg");
 }
 .image_4{
-	background-image: url("../img/image4.jpg");
+	background-image: url("assets/image4.jpg");
 }
 #actions {
 	margin-top: 20px;
+	display: none;
 }
-
 .loading {
 	position: absolute;
 	top: 0;
@@ -225,7 +238,32 @@ div[class*='image_'] span{
  	z-index: 11111;
  	display: none;
 }
-
+.popup_container {
+	width: 360px;
+	height: 360px;
+	background: white;
+	margin: auto;
+	position: relative;
+	border: 1px gray solid;
+	font-size: 20px;
+    position: absolute;
+    left: 50%;
+    margin-left: -180px;
+    top: 50%;
+    margin-top: -180px;
+}
+.input_text {
+	background-image: none;
+   	width: 180px;
+    height: 30px;
+    color: #000;
+    margin-top: 1em;
+    line-height: normal;
+    font-size: 15px;
+}
+.input_text:focus {
+	outline: none;
+}
 .loading_inner {
 	transform: translateY(-50%);
 	top: 50%;

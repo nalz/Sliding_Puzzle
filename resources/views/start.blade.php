@@ -11,6 +11,7 @@
 	    <label>&#8226;</label>
 	  </div>
 	</div>
+	<div class="continue continue_prompt"><p>Memorize the below sequence of tiles. <br/>Click the tiles to slide them around and replicate the original sequence. <br/>You can use hints(counts as 2 moves) or the give up option if you are stuck.<p></div>
 	<div class="popup_container">
 		<p>Player Name</p>
 		<input class="input_text" id="name" type="text" name="Name" alt="Name" placeholder="Nalin" tabindex="1">
@@ -45,9 +46,11 @@
 			--><div id="grid_0" class="grid_item text blank pos_15"><span></span></div>
 		</div>
 	</div>
-	<div id="actions">
+	<div class="btn_primary continue" id="continue">Continue</div>
+	<div id="puzzle_actions" class="begin">
 		<div class="btn_primary" id="hint">Hint</div>
 		<div class="btn_primary" id="giveup">Give up</div>
 	</div>
+	<div class="begin" id="moves"><span id="moves_value"></span></div>
 </div>
 @endsection

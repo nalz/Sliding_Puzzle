@@ -10,12 +10,15 @@
 		this.currentNode = {},
 
 		this.difficulty = 0,
-		this.name = "";
+		this.name = "",
+		this.moves = 0;
 	};
 
 	Puzzle.fn = Puzzle.prototype = {
 
 		_reset: function() {
+
+			$("#moves_value").html(this.moves);
 
 			this.targetNode = new Node(15, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0]);
 
@@ -39,7 +42,7 @@
 		},
 
 		_change: function(callback) {
-
+			$(".loading").show();
 			var template = this.templateClasses[Math.floor(Math.random() * this.templateClasses.length)],
 
 			that = this,
@@ -79,13 +82,13 @@
 			}
 
 			$(document).on("click", ".candidate", function() {
-
+				that.moves++;
+				$("#moves_value").html(that.moves);
 				that._moveGridItem($(this));
 			});
 		},
 
 		_shuffle: function(callback) {
-			$(".loading").show();
 			var that = this,
 
 			startShuffle = function(index, lastRandom) {
@@ -112,13 +115,15 @@
 					callback();
 				}	
 			};
-			that._change(function() {
-				setTimeout(function() {
-					startShuffle(0, null);
-				}, 2000);
-				
-			});
+			startShuffle(0, null);	
 			
+		},
+
+		continue: function() {
+			$(".continue").hide();
+			this._shuffle(function() {
+				$(".begin").show();
+			});
 		},
 
 		start: function() {
@@ -137,9 +142,10 @@
 
 			$(".popup_container").fadeOut(100);
 			$("#grid").fadeIn(500, function() {
-				that._shuffle(function() {
-					$("#actions").show();
+				that._change(function() {
+					$(".continue").show();
 				});
+				
 			});
 		},
 
@@ -148,6 +154,7 @@
 				result = astar.solve();
 
 			this._moveGridItem($(".pos_" + result[0].blankIndex));
+			this.moves += 2;
 		},
 
 		giveup: function() {

@@ -20,6 +20,8 @@ body:before {
 	text-align: center;
 	display: inline-block;
 	vertical-align: middle;
+	width: 100%;
+	position: relative;
 }
 #grid {
 	width: 360px;
@@ -49,6 +51,7 @@ body:before {
     transition-duration: .25s;
     overflow: hidden;
 }
+
 .candidate:hover {
 	opacity: 0.5;
 	cursor: pointer;
@@ -84,6 +87,17 @@ div[class*='image_'] span{
     -webkit-transition-duration: .25s;
     transition-property: background;
     transition-duration: .25s;
+}
+.btn_primary.continue, #puzzle_actions {
+	position: absolute;
+	left: 50%;
+	margin-top: 20px;
+}
+.btn_primary.continue {
+	margin-left: -60px;
+}
+#puzzle_actions {
+	margin-left: -122px;
 }
 #start {
 	display: block;
@@ -225,10 +239,7 @@ div[class*='image_'] span{
 .image_4{
 	background-image: url("assets/image4.jpg");
 }
-#actions {
-	margin-top: 20px;
-	display: none;
-}
+
 .loading {
 	position: absolute;
 	top: 0;
@@ -237,6 +248,22 @@ div[class*='image_'] span{
  	width: 100%;
  	z-index: 11111;
  	display: none;
+}
+.continue_prompt {
+	position: absolute;
+	top: -100px;
+    width: 100%;
+    text-align: center;
+}
+.begin, .continue {
+	display: none;
+}
+#moves {
+	position: fixed;
+	font-size: 40px;
+	font-weight: bold;
+	left: 30px;
+	top: 20px;
 }
 .popup_container {
 	width: 360px;

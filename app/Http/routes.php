@@ -17,6 +17,8 @@ Route::get('/', function () {
 Route::get('/score', function () {
     return view('score');
 });
+Route::resource('userscore', 'UserScoreController');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,5 +34,3 @@ Route::get('/score', function () {
 Route::group(['middleware' => ['web']], function () {
     //
 });
-
-Route::resource('userscore', 'UserScoreController');

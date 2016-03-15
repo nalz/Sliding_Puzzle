@@ -16,6 +16,9 @@ body:before {
   vertical-align: middle;
   margin-right: -0.25em; /* Adjusts for spacing */
 }
+
+/* Puzzle Page */
+
 #puzzle_container {
 	text-align: center;
 	display: inline-block;
@@ -388,4 +391,32 @@ div[class*='image_'] span{
 .loading_inner label:nth-child(1) {
 	-webkit-animation: lol 3s 500ms infinite ease-in-out;
 	animation: lol 3s 500ms infinite ease-in-out;
+}
+
+/* Scores Page */
+.scores_table_container {
+	text-align: center;
+	display: inline-block;
+	vertical-align: middle;
+	width: 100%;
+	position: relative;
+	height: 600px;
+}
+.scores_title {
+	font-weight: bold;
+}
+.scores_table {
+	margin: auto;
+	width: 500px;
+	border: 1px solid gray;
+}
+.scores_table tr{
+	height: 50px;
+}
+.scores_table th{
+	background: #C0C0C0;
+}
+.scores_table .even{
+
+	background: #DCDCDC;
 }

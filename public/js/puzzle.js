@@ -304,7 +304,8 @@
 
 		_scoreboard: function(win) {
 			var that = this,
-				bannerText = "You ";
+				bannerText = "You ",
+				score = (that.moves == 0) ? 0 : ((that.difficulty * 100)/that.moves);
 
 			if(win) {
 				bannerText += "Win!";
@@ -314,17 +315,22 @@
 			}
 			$(".banner p").html(bannerText);
 			$(".banner").fadeIn(300);
-			
+
+
+
 			$.ajax({
 			        type: "POST",
 			        url: '/userscore',
 			        data: {
 			        	name: that.name,
-			        	difficulty: that.difficulty,
-			        	moves: that.moves
+			        	score: score
+			        	
 			        },
 			        success: function() {
-			            window.href("/score");
+			        	setTimeout( function() {
+			        		window.location.href = "/score";
+			        	}, 2000);
+			            
 			        }
 			});
 		},

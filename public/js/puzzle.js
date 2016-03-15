@@ -18,7 +18,7 @@
 
 		_reset: function() {
 
-			$("#moves_value").html(this.moves);
+			
 
 			this.targetNode = new Node(15, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0]);
 
@@ -83,7 +83,8 @@
 
 			$(document).on("click", ".candidate", function() {
 				that.moves++;
-				$("#moves_value").html(that.moves);
+				that._updateMoves();
+				
 				that._moveGridItem($(this));
 			});
 		},
@@ -120,9 +121,11 @@
 		},
 
 		continue: function() {
+			var that = this;
 			$(".continue").hide();
 			this._shuffle(function() {
 				$(".begin").show();
+				that._updateMoves();
 			});
 		},
 
@@ -155,6 +158,7 @@
 
 			this._moveGridItem($(".pos_" + result[0].blankIndex));
 			this.moves += 2;
+			this._updateMoves();
 		},
 
 		giveup: function() {
@@ -281,6 +285,10 @@
 			        return classList[i];
 			    }
 			}
+		},
+
+		_updateMoves: function() {
+			$("#moves_value").html(this.moves);
 		}
 
 	};

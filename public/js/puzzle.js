@@ -105,7 +105,7 @@
 				
 				that._moveGridItem($(this));
 
-				if(that.finished(this.currentNode)) {
+				if(that.finished(that.currentNode)) {
 					that._scoreboard(true);
 				}
 			});

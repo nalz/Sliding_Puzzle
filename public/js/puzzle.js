@@ -451,8 +451,8 @@
 		 * on the server
 		 *
 		 *
-		 * We calculate the score by multiplying difficulty by shuffle multiplier and dividing by number of moves. And
-		 * since we want the score to be in 1-100, we multiply that number by 100
+		 * We calculate the score by multiplying difficulty^2 by shuffle multiplier and dividing by number of moves. And
+		 * since we want the score to be in 1-300, we multiply that number by 100
 		 * 
 		 * @param {boolean} win this boolean is used to determine what to display in the banner text
 		 */
@@ -463,7 +463,7 @@
 
 			var that = this,
 				bannerText = "You ",
-				score = (that.moves == 0) ? 0 : Math.floor(((that.difficulty * Puzzle.shuffleMultiplier * 100)/that.moves));
+				score = (that.moves == 0) ? 0 : Math.floor(((that.difficulty * that.difficulty * Puzzle.shuffleMultiplier * 100)/that.moves));
 
 			if(win) {
 				bannerText += "Win!";

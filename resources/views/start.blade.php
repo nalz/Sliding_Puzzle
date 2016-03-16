@@ -5,19 +5,11 @@
 		<p></p>
 	</div>
 	<div class="loading">
-	  <div class="loading_inner">
-	    <label>&#8226;</label>
-	    <label>&#8226;</label>
-	    <label>&#8226;</label>
-	    <label>&#8226;</label>
-	    <label>&#8226;</label>
-	    <label>&#8226;</label>
-	  </div>
 	</div>
 	<div class="continue continue_prompt"><p>Memorize the below sequence of tiles. <br/>Click the tiles to slide them around and replicate the original sequence. <br/>You can use hints(counts as 3 moves) or give up if you are stuck.<p></div>
 	<div class="popup_container">
 		<p>Player Name</p>
-		<input class="input_text" id="name" type="text" name="Name" alt="Name" placeholder="Nalin" tabindex="1">
+		<input class="input_text" id="name" type="text" name="Name" alt="Name" placeholder="Yourname" tabindex="1">
 		<p>Enter a difficulty level</p>
 		<input class="input_text" id="difficulty" type="text" name="Difficulty" alt="Difficulty" placeholder="1-3" tabindex="1">
 		<div class="btn_primary" id="start">Start Puzzle</div>
